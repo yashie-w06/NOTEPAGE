@@ -1,0 +1,92 @@
+<!doctype html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>DOS-NOTE Editor</title>
+  <link rel="stylesheet" href="style.css">
+</head>
+<body>
+  <header class="menu-bar">
+    <div class="brand">DOS-NOTE <span>v1.0</span></div>
+    <div class="menu-actions">
+      <button data-action="new">[N]ew</button>
+      <button data-action="open">[O]pen</button>
+      <button data-action="save">[S]ave HTML</button>
+      <button data-action="print">[P]rint</button>
+      <button data-action="help">[H]elp</button>
+    </div>
+    <div id="clock" aria-label="Current time"></div>
+  </header>
+
+  <section class="toolbar" aria-label="Editor toolbar">
+    <div class="tool-group">
+      <label>STYLE
+        <select id="blockStyle" title="Paragraph style">
+          <option value="p">Paragraph</option><option value="h1">Heading 1</option>
+          <option value="h2">Heading 2</option><option value="h3">Heading 3</option>
+          <option value="pre">Code block</option><option value="blockquote">Quote</option>
+        </select>
+      </label>
+      <label>FONT
+        <select id="fontName"><option value="PxPlus IBM VGA8, Perfect DOS VGA 437, Courier New, monospace">DOS Bitmap</option><option value="Courier New">Courier</option><option value="monospace">System Mono</option></select>
+      </label>
+      <label>SIZE <select id="fontSize"><option value="2">12</option><option value="3" selected>16</option><option value="4">18</option><option value="5">24</option><option value="6">32</option></select></label>
+    </div>
+    <div class="tool-group compact">
+      <button data-cmd="bold"><b>B</b></button><button data-cmd="italic"><i>I</i></button><button data-cmd="underline"><u>U</u></button>
+      <button data-cmd="strikeThrough"><s>S</s></button><button data-cmd="removeFormat">CLR</button>
+      <label class="color-tool">FG <input id="foreColor" type="color" value="#c8c8c8"></label>
+      <label class="color-tool">BG <input id="hiliteColor" type="color" value="#000080"></label>
+    </div>
+    <div class="tool-group compact">
+      <button data-cmd="justifyLeft">LEFT</button><button data-cmd="justifyCenter">MID</button><button data-cmd="justifyRight">RIGHT</button>
+      <button data-cmd="insertUnorderedList">• LIST</button><button data-cmd="insertOrderedList">1. LIST</button>
+      <button id="linkBtn">LINK</button><button data-cmd="undo">UNDO</button><button data-cmd="redo">REDO</button>
+    </div>
+    <div class="tool-group compact">
+      <button id="imageBtn">+ IMAGE(S)</button><button id="hrBtn">— LINE</button><button id="dateBtn">DATE</button>
+      <input id="imageInput" type="file" accept="image/*" multiple hidden>
+      <input id="fileInput" type="file" accept=".html,.htm,text/html" hidden>
+    </div>
+    <div id="imageTools" class="tool-group image-tools" hidden>
+      <strong>IMAGE:</strong>
+      <label>W <input id="imageWidth" type="number" min="10" max="2000" value="480"></label>
+      <label>ALT <input id="imageAlt" type="text" placeholder="description"></label>
+      <button data-img-align="left">LEFT</button><button data-img-align="center">MID</button><button data-img-align="right">RIGHT</button>
+      <button id="imageReset">AUTO</button><button id="imageDelete">DELETE</button>
+    </div>
+  </section>
+
+  <main class="workspace">
+    <section class="document-window">
+      <div class="window-title"><span>█</span> C:\NOTES\UNTITLED.HTM <span>↕</span></div>
+      <input id="noteTitle" class="note-title" value="UNTITLED NOTE" aria-label="Note title">
+      <article id="editor" contenteditable="true" spellcheck="true">
+        <h1>Welcome to DOS-NOTE</h1>
+        <p>A distraction-free note editor inspired by classic MS-DOS help screens.</p>
+        <h2>Getting started</h2>
+        <p>Type anywhere. Turn lines into headings to build the contents tree automatically.</p>
+        <h3>Images</h3>
+        <p>Place the caret, choose + IMAGE(S), and select one or several files.</p>
+      </article>
+      <div class="status-bar"><span id="saveState">READY</span><span id="stats">0 WORDS · 0 CHARS</span><span>LOCAL MODE</span></div>
+    </section>
+
+    <aside id="tocPanel" class="toc-panel">
+      <div class="toc-title"><button id="tocToggle" title="Collapse contents">◀</button><span>TABLE OF CONTENTS</span></div>
+      <nav id="toc" aria-label="Table of contents"></nav>
+      <div class="toc-help">H1 / H2 / H3 hierarchy<br>Click a title to jump</div>
+    </aside>
+  </main>
+
+  <dialog id="helpDialog">
+    <div class="dialog-title">DOS-NOTE HELP <button id="closeHelp">[X]</button></div>
+    <p><b>CTRL+S</b> export HTML · <b>CTRL+O</b> open HTML · <b>CTRL+B/I/U</b> format text</p>
+    <p>In a code or quote block, press <b>ENTER</b> twice at the end to continue in a normal paragraph.</p>
+    <p>Notes autosave in this browser. Exported HTML is standalone: embedded images and styles travel with the note.</p>
+  </dialog>
+  <div id="toast" role="status"></div>
+  <script src="script.js"></script>
+</body>
+</html>
